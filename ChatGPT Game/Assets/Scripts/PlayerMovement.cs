@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip audioClips; // an array of audio clips
     private AudioSource audioSource; // the audio source component
 
+    public TextMeshProUGUI inputString;
+
     private void Awake()
     {
         instance = this;
@@ -40,15 +42,23 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        //float x = Input.GetAxisRaw("Horizontal");
+
         if (canChangeLanes)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
             {
+                inputString.text = "Input: '<-' / 'A'";
                 ChangeLanes(-1);
             }
-            else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) 
             {
+                inputString.text = "Input: '->' / 'D'";
                 ChangeLanes(1);
+            }
+            else
+            {
+                inputString.text = "Input: No input";
             }
         }
     }
@@ -73,7 +83,8 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator MoveToLane(Transform targetLane)
     {
         canChangeLanes = false;
-        while (Vector3.Distance(targetLane.position, transform.position) > 0.1f)
+        //while (Vector3.Distance(targetLane.position, transform.position) > 0.05f)
+        while (Mathf.Abs((targetLane.position - transform.position).x) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetLane.position, laneChangeSpeed * Time.deltaTime);
             yield return null;
