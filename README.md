@@ -1,4 +1,4 @@
-# Infinite-Runner-ChatGPT
+# Infinite Runner ChatGPT
 ### This is an entire game that is coded using ChatGPT.
 
 ![Cover Image](Cover%20Image.png)
